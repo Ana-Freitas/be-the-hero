@@ -36,6 +36,7 @@ module.exports = {
         const incident = await connection('incidents')
             .where('id', id)
             .select('ong_id')
+            .first();
 
         /* Aqui verificamos se a ONG logada é a mesma encontrada no caso que ela quer excluir*/
 
