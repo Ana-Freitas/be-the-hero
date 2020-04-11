@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
+import { FaPencilAlt } from 'react-icons/fa';
 
 import api from '../../services/api';
 import './style.css';
@@ -38,6 +39,10 @@ export default function Profile() {
         }
     }
 
+    async function handlePutIncident(incident) {
+        history.push(`/incidents`, { incident });
+    }
+
     function handleLogout() {
         localStorage.clear();
 
@@ -67,6 +72,9 @@ export default function Profile() {
                         <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}</p>
                         <button onClick={() => handleDeleteIncident(incident.id)} type="button">
                             <FiTrash2 size={20} color="#a8a8b3" />
+                        </button>
+                        <button onClick={() => handlePutIncident(incident)} type="button">
+                            <FaPencilAlt size={20} color="#a8a8b3" />
                         </button>
                     </li>))}
             </ul>
