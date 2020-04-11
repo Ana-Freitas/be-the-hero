@@ -11,5 +11,4 @@ app.use(express.json());
 app.use(routes);
 app.use(errors());
 
-/*A aplicação irá ouvir à porta 3333*/
-app.listen(3333);
+module.exports = app;

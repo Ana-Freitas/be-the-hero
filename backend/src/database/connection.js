@@ -1,10 +1,8 @@
-/* IMPORTANDO O KNEX E O ARQUIVO DE CONFIGURAÇÃO DO BANCO */
 const knex = require('knex');
 const configuration = require('../../knexfile');
 
-/* Informando que nossa conexão será feita pelo knex e com a configuração 
-que definimos no arquivo em ambiente de desenvolvimento*/
-const connection = knex(configuration.development);
+const config = process.env.NODE_ENV == 'test' ? configuration.test : configuration.development;
 
-/*EXPORTANDO NOSSA CONEXÃO, PARA QUE FIQUE ACESSÍVEL PARA OS OUTROS IMPORTAREM */
+const connection = knex(config);
+
 module.exports = connection;
