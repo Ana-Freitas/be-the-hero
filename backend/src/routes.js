@@ -8,12 +8,13 @@ const routes = express.Router();
 
 routes.get('/ongs', OngController.read);
 routes.post('/ongs', validators.createOng, OngController.create);
+routes.put('/ongs/:id', validators.createOng, validators.putOng, OngController.put);
 routes.get('/profile', validators.profile, ProfileController.index);
 
 routes.post('/session', SessionController.create);
 
 routes.post('/incidents', validators.createIncidents, IncidentController.create);
-routes.put('/incidents/:id', IncidentController.put);
+routes.put('/incidents/:id', validators.createIncidents, validators.putIncident, IncidentController.put);
 routes.get('/incidents', validators.listIncidents, IncidentController.read);
 routes.delete('/incidents/:id', validators.deleteIncident, IncidentController.delete);
 
