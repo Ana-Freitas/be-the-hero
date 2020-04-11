@@ -13,6 +13,35 @@ module.exports = {
         return response.json({ id });
     },
 
+    async put(request, response) {
+        const { id } = request.params;
+        const ong_id = request.headers.authorization;
+
+        const incident = await connection('incidents')
+            .where('id', id)
+            .select('*')
+            .first();
+
+        if (!incident) {
+            return response.status(404).json({ error: "Incident not found." });
+        }
+
+        if (incident.ong_id != ong_id) {
+            return response.status(401).json({ error: "Operation not permitted." });
+        }
+
+        const { title, description, value } = request.body;
+
+        await connection('incidents').where('id', incident.id)
+            .update({
+                title,
+                description,
+                value
+            })
+
+        return response.json({ "ID": `${incident.id}`, "Message": "Updated Successfully!" });
+    },
+
     async read(request, response) {
         const { page = 1 } = request.query;
         const [count] = await connection('incidents').count();

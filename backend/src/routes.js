@@ -13,6 +13,7 @@ routes.get('/profile', validators.profile, ProfileController.index);
 routes.post('/session', SessionController.create);
 
 routes.post('/incidents', validators.createIncidents, IncidentController.create);
+routes.put('/incidents/:id', IncidentController.put);
 routes.get('/incidents', validators.listIncidents, IncidentController.read);
 routes.delete('/incidents/:id', validators.deleteIncident, IncidentController.delete);
 
