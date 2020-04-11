@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
 
@@ -10,14 +10,18 @@ import logoImg from '../../assets/logo.svg';
 
 
 export default function Register() {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [whatsapp, setWhatsapp] = useState('');
-    const [city, setCity] = useState('');
-    const [uf, setUf] = useState('');
-
-
     const history = useHistory();
+    const ongs = useLocation();
+    const params = useParams();
+    const atualizar = ongs.state ? true : false;
+    const ong = atualizar ? ongs.state.ong : '';
+
+    const [name, setName] = useState(atualizar ? ong.name : '');
+    const [email, setEmail] = useState(atualizar ? ong.email : '');
+    const [whatsapp, setWhatsapp] = useState(atualizar ? ong.whatsapp : '');
+    const [city, setCity] = useState(atualizar ? ong.city : '');
+    const [uf, setUf] = useState(atualizar ? ong.uf : '');
+
     async function handleRegister(e) {
         e.preventDefault();
 
@@ -29,12 +33,24 @@ export default function Register() {
             uf,
         }
         try {
-            const response = await api.post('ongs', data);
-            alert(`Seu id de acesso: ${response.data.id}`);
 
-            history.push('/');
+            if (atualizar) {
+                const id = ong.id;
+                const response = await api.put(`ongs/${id}`, data, {
+                    headers: {
+                        Authorization: params.id
+                    }
+                });
+                localStorage.setItem('ongName', response.data.name);
+                history.push('/profile');
+            } else {
+                const response = await api.post('ongs', data);
+                alert(`Seu id de acesso: ${response.data.id}`);
+                history.push('/');
+            }
         } catch (err) {
-            alert('Erro no cadastro, tente novamente!');
+            alert(`Erro ${atualizar ? 'ao atualizar' : 'no cadastro'
+                }, tente novamente!`);
         }
     }
 
@@ -44,11 +60,12 @@ export default function Register() {
 
                 <section>
                     <img src={logoImg} alt="logo" />
-                    <h1>Cadastro</h1>
-                    <p >Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG.</p>
-                    <Link className="back-Link" to="/">
+                    <h1>{atualizar ? 'Atualizar' : 'Cadastro'}</h1>
+                    <p >{atualizar ? 'Atualize seus dados' :
+                        'Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os casos da sua ONG.'}</p>
+                    <Link className="back-Link" to={atualizar ? '/profile' : '/'}>
                         <FiArrowLeft size={16} color="#E02041" />
-                            Não tenho cadastro
+                        {atualizar ? 'Voltar' : 'Não tenho cadastro'}
                     </Link>
                 </section>
                 <form onSubmit={handleRegister}>
@@ -81,7 +98,7 @@ export default function Register() {
                             onChange={e => setUf(e.target.value)}
                         />
                     </div>
-                    <button className="button" type="submit">Cadastrar</button>
+                    <button className="button" type="submit"> {atualizar ? 'Atualizar' : 'Cadastrar'}</button>
                 </form>
             </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import { FaPencilAlt } from 'react-icons/fa';
+import { GoGear } from 'react-icons/go';
 
 import api from '../../services/api';
 import './style.css';
@@ -32,7 +33,7 @@ export default function Profile() {
                 }
             })
 
-            setIncidents(incidents.filter(incident => incident.id != id));
+            setIncidents(incidents.filter(incident => incident.id !== id));
         } catch (err) {
             console.log(`Ong: ${ongId} `);
             alert('Erro ao delete, tente novamente');
@@ -49,14 +50,21 @@ export default function Profile() {
         history.push('/');
     }
 
+    function handleToConfig() {
+        history.push('/config');
+    }
+
     return (
         <div className="profile-container">
             <header>
                 <img src={logoImg} alt="logo" />
                 <span>Bem vinda, {ongName}</span>
                 <Link className="button" to="/incidents/new"> Cadastrar novo caso </Link>
+                <button onClick={handleToConfig} type="button">
+                    <GoGear size={30} color="#E02041" />
+                </button>
                 <button onClick={handleLogout} type="button">
-                    <FiPower size={18} color="#E02041" />
+                    <FiPower size={30} color="#E02041" />
                 </button>
             </header>
             <h1>Casos Cadastrados</h1>
