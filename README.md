@@ -20,7 +20,8 @@
     * POST
     * PUT
     * DELETE
-* TESTE
-    * JEST
+* TESTE - JEST
+    * UNITÁRIO
+    * INTEGRAÇÃO
  
     ![BeTheHero](/frontend/src/assets/heroes.png)
