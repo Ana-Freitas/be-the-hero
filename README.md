@@ -10,7 +10,7 @@
 * REACT
 * REACT NATIVE
 * CONCEITOS API
-  * Rotas
+  * ROTAS
   * TIPOS DE PARÂMETROS
     * Query
     * Params
@@ -21,7 +21,7 @@
     * PUT
     * DELETE
 * TESTE - JEST
-    * UNITÁRIO
-    * INTEGRAÇÃO
+    * Unitário
+    * Integração
  
     ![BeTheHero](/frontend/src/assets/heroes.png)
