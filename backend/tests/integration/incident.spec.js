@@ -2,7 +2,10 @@ const request = require('supertest');
 const app = require('../../src/app')
 const connection = require('../../src/database/connection');
 
-describe('ONG', () => {
+
+describe('Incident', () => {
+
+
     beforeEach(async () => {
         await connection.migrate.rollback();
         await connection.migrate.latest();
@@ -10,27 +13,21 @@ describe('ONG', () => {
 
     afterAll(async () => {
         await connection.destroy();
-    });
+    })
 
-    it('should be able to create a new ONG', async () => {
-
-        const whatsapp = "5516999999999"
-        expect(whatsapp).toMatch(/^[0-9]{10,13}$/);
-
+    it('should be able to create a new incident', async () => {
         const response = await request(app)
-            .post('/ongs')
+            .post('/incidents')
+            .set('Authorization', '4852a5e2')
             .send(
                 {
-                    name: "TESTE",
-                    email: "teste@teste.com",
-                    whatsapp: whatsapp,
-                    city: "Araraquara",
-                    uf: "SP"
+                    "title": "TESTE",
+                    "description": "Banho e tosa gratuito para cães de rua",
+                    "value": 1.99
                 }
             );
 
         expect(response.body).toHaveProperty('id');
-        expect(response.body.id).toHaveLength(8);
 
         console.log(response.body);
     })
