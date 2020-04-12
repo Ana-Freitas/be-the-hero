@@ -19,7 +19,6 @@ module.exports = {
     async put(request, response) {
         const { id } = request.params;
         const ong_id = request.headers.authorization;
-
         const ong = await connection('ongs')
             .where('id', id)
             .select('*')
@@ -43,10 +42,31 @@ module.exports = {
                 uf
             })
 
-        return response.json({ "ID": `${ong.id}`, "Message": "Updated Successfully!" });
+        return response.json({ "ID": `${ong.id}`, 'name': `${name}`, "Message": "Updated Successfully!" });
     },
+
     async read(request, response) {
         const ongs = await connection('ongs').select('*');
         return response.json(ongs);
+    },
+
+    async  readOng(request, response) {
+        const { id } = request.params;
+        const ong_id = request.headers.authorization;
+
+        const ong = await connection('ongs')
+            .where('id', id)
+            .select('*')
+            .first();
+
+        if (!ong) {
+            return response.status(404).json({ error: "Ong not found." });
+        }
+
+        if (ong.id != ong_id) {
+            return response.status(401).json({ error: "Operation not permitted.", data1: ong.id, data2: ong_id });
+        }
+
+        return response.json(ong);
     }
 }

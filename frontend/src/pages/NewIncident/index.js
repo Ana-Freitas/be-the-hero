@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import './style.css';
@@ -10,6 +10,7 @@ export default function NewIncident() {
     const incident = useLocation();
     const history = useHistory();
     const ong_id = localStorage.getItem('ongId');
+
     const novo = incident.state ? true : false;
 
     const [title, setTitle] = useState(incident.state ? incident.state.incident.title : '');
